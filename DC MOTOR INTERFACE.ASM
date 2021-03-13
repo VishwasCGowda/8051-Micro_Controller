@@ -1,0 +1,27 @@
+ORG 5000H
+DB 01H  // below values are got from truth table (half step mode)// 
+DB 03H
+DB 02H
+DB 06H
+DB 04H
+DB 0CH
+DB 08H
+DB 09H
+
+UP:   ORG 0000H
+	  MOV DPTR,#5000H
+	  MOV R7,#08H
+	  MOV R0,#00H
+BACK: MOV A,R0
+	  MOVC A,@A+DPTR
+	  MOV P1,A
+	  ACALL DELAY
+	  INC R0
+	  DJNZ R7,BACK
+	  SJMP UP
+
+DELAY:MOV R6,#0FFH
+LOCAL:MOV R5,#0FFH
+HERE :DJNZ R5,HERE
+      DJNZ R6,LOCAL
+      RET
